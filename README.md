@@ -1,35 +1,39 @@
-# YouTube VR Ad Filter — experimental
+# YouTube VR Ad Filter — Experimental
 
-نسختان تجريبيتان لـ YouTube VR **1.87.13 / 18713000** على Meta Quest ARM64. اختر طريقة واحدة فقط.
+Two experimental options for YouTube VR **1.87.13 / 18713000** on Meta Quest ARM64. Choose one method.
 
-## التحميل
+## Downloads
 
-الملفات موجودة في صفحة **Releases** لهذا المستودع:
+Download the files from [Releases](https://github.com/Akramx15/youtube-vr-adfilter/releases):
 
-- **YouTubeVR-1.87.13-rootless-experimental.apk**: التطبيق المعدّل، لا يحتاج موديول أو روت لتنفيذ التعديل.
-- **youtube-vr-adfilter-test.apk**: موديول LSPosed/Vector للاستخدام مع التطبيق الرسمي وروت.
-- **youtube-vr-adfilter-source.zip**: مصدر الموديول وسكربتات البناء والتحقق.
-- **rootless-certificate.pem** و**lsposed-certificate.pem**: شهادتا التوقيع العامتان.
-- **SHA256SUMS.txt**: بصمات الملفات للتحقق من سلامتها.
+- **YouTubeVR-1.87.13-rootless-experimental.apk**: the modified app; the patch itself does not require root or a module.
+- **youtube-vr-adfilter-test.apk**: an LSPosed/Vector module for the official app on a rooted headset.
+- **youtube-vr-adfilter-source.zip**: module source, build script, and verification script.
+- **rootless-certificate.pem** and **lsposed-certificate.pem**: public signing certificates.
+- **SHA256SUMS.txt**: file checksums for integrity verification.
 
-## النسخة المستقلة
+## Standalone APK
 
-احذف النسخة الرسمية قبل التثبيت لاختلاف التوقيع؛ الحذف يمسح بيانات التطبيق المحلية وقد يتطلب تسجيل الدخول مجددًا. جرّب الفتح من مكتبة النظارة مباشرة. أبلغ المختبر أن التشغيل المباشر يعمل وأنه لم يشاهد إعلانات. إذا منع تنبيه Restore App التشغيل، يوجد سكربت اختياري `launch-via-adb.sh` يشغّل النشاط مرتين بفاصل ثانية من كمبيوتر متصل ومصرّح له بالتصحيح. لا تضغط Restore إذا أردت الاحتفاظ بالنسخة المعدّلة. هذا ليس ضمانًا لإزالة التنبيه دائمًا.
+Uninstall the official app before installing this APK because their signatures differ. Uninstalling deletes local app data and may require signing in again. Try launching directly from the headset library. The tester reported that direct launching works and that no ads appeared.
 
-APK المستقل جُرّب على Quest 3 بها روت، بعد إزالة موديول الإعلانات. لم يُختبر بعد على نظارة بلا روت فعليًا. لم يوثّق الاختبار تأكيدًا منفصلًا لتسجيل الدخول أو360°.
+If a **Restore App** prompt prevents launching, the optional `launch-via-adb.sh` script starts the activity twice, one second apart, from a computer with an authorized ADB connection. Do not select Restore if you want to keep the modified app. This workaround does not guarantee that the prompt will stay away permanently.
 
-## موديول LSPosed / Vector
+The standalone APK was tested on a rooted Quest 3 after removing the ad-filter module. It has **not yet been tested on an actually unrooted headset**. Sign-in continuity and 360° playback were not separately confirmed in the recorded test.
 
-ثبّت التطبيق الرسمي للإصدار المذكور، ثم ثبّت الموديول وفعّله في LSPosed/Vector وحدّد **com.google.android.apps.youtube.vr.oculus** وحده في النطاق. أغلق YouTube VR تمامًا وأعد فتحه. الموديول يرفض الإصدارات المختلفة. هذا المرفق هو موديولنا، وليس مثبت إطار LSPosed نفسه.
+To return to the official app, uninstall the modified APK and reinstall YouTube VR from the official store. Uninstalling removes local app data.
 
-## التوقيع والبناء
+## LSPosed / Vector module
 
-المفاتيح الخاصة غير منشورة. شهادات PEM عامة ولا تسمح بالتوقيع نيابة عن المطور. تحقّق باستخدام `sha256sum -c SHA256SUMS.txt` و`apksigner verify --print-certs FILE.apk`.
+Install the official app version listed above, install the module, enable it in LSPosed/Vector, and select only **com.google.android.apps.youtube.vr.oculus** in its scope. Fully close YouTube VR and reopen it. The module refuses to apply hooks to other versions. The attached APK is our module, not the LSPosed framework installer.
 
-مصدر الموديول في `lsposed/`. اضبط ANDROID_HOME على Android SDK يتضمن platform34 وbuild-tools34.0.0، ثم شغّل `python build.py`. ينشئ مفتاحًا وكلمة مرور محليين داخل build؛ لا تشاركهما. لتشغيل `python verify.py` تحتاج Java وandroguard وloguru مثبتة في بيئة Python. إعادة البناء تنشئ توقيعًا مختلفًا عن ملفات الإصدار المنشورة.
+## Signing and building
 
-## حدود الاختبار والمصادر
+Private signing keys are not published. The public PEM certificates cannot be used to sign on behalf of the developer. Verify the files with `sha256sum -c SHA256SUMS.txt` and `apksigner verify --print-certs FILE.apk`.
 
-التعديل يوقف دالتين مرتبطتين بالإعلانات في هذا الإصدار فقط. لا توجد ضمانة لحجب جميع مسارات الإعلانات أو دعم الإصدارات المستقبلية. المشروع غير رسمي وغير تابع لـGoogle/YouTube أوMeta. الحقوق في التطبيق الأصلي لأصحابها. لا تشمل الملفات بيانات حسابات أو نسخًا احتياطية خاصة.
+Module source is in `lsposed/`. Set `ANDROID_HOME` to an Android SDK containing platform 34 and build-tools 34.0.0, then run `python build.py` from that directory. The script creates a local signing key and password inside `build/`; keep both private. Running `python verify.py` requires Java and the Python packages `androguard` and `loguru`. A fresh build has a different signature from the published release APKs.
 
-استُخدمت بصمات مسارات الإعلانات في [NexAlloy](https://github.com/NexAlloy/NexAlloy/tree/be1b44336330ac14431cfc4b7755dd97b3da313a/app/src/main/java/io/github/nexalloy/morphe/youtube/ad) مرجعًا للمقارنة؛ لم يُضمّن الموديول الكامل. طريقة التشغيل الاحتياطية مستمدة من [QuestPatcher](https://github.com/Lauriethefish/QuestPatcher/commit/572bf49b27fc783f9d6dfcbbcdcacbf2eedda895)، مع استبدال نشاطUnity بنشاطYouTubeVR.
+## Testing limits and references
+
+The patch skips two ad-related methods in this specific app version. Blocking every ad path or supporting future versions is not guaranteed. This is an unofficial project with no affiliation with Google, YouTube, or Meta. Rights to the original app belong to their respective owners. Published files contain no account data or private backups.
+
+Ad-path fingerprints from [NexAlloy](https://github.com/NexAlloy/NexAlloy/tree/be1b44336330ac14431cfc4b7755dd97b3da313a/app/src/main/java/io/github/nexalloy/morphe/youtube/ad) were used as a comparison reference; the full module is not included. The fallback launch method comes from [QuestPatcher](https://github.com/Lauriethefish/QuestPatcher/commit/572bf49b27fc783f9d6dfcbbcdcacbf2eedda895), adapted to use the YouTube VR activity instead of the Unity activity.
