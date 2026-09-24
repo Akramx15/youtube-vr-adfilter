@@ -1,5 +1,10 @@
-Experimental release for YouTube VR 1.87.13 on Meta Quest ARM64.
+First release of the ad filter for YouTube VR 1.87.13 on Meta Quest (ARM64).
 
-Choose either the standalone APK or the LSPosed/Vector module with the official app; you do not need both. The standalone APK was tested on a rooted headset after removing the module, and the tester confirmed direct launching with no ads. Testing on an actually unrooted headset and separate verification of 360° playback remain outstanding.
+There are two downloads to choose from:
 
-Public signing certificates and SHA-256 checksums are included. No private signing keys or account data are included. See the README for installation and rollback instructions. The standalone APK has a different signature, so uninstall the official app first; this removes its local data.
+- **Standalone APK** — the patch is built into the app, so it does not need the LSPosed module. Uninstall the official YouTube VR app first, since the signatures are different. This clears its local data, so you may need to sign in again.
+- **LSPosed/Vector module** — use this with the official YouTube VR app if your headset is rooted. It only supports version 1.87.13.
+
+The standalone APK is working on a Quest 3: it opens straight from the headset library, and no ads showed up during use. That headset is rooted, but the module was removed for this test. It still needs testing on a headset without root, and 360° playback has not been checked separately yet.
+
+Source for the module, public signing certificates, and SHA-256 checksums are included below. See the [README](https://github.com/Akramx15/youtube-vr-adfilter#readme) for setup instructions and how to switch back to the official app.
