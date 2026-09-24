@@ -1,0 +1,8 @@
+build/
+deps/
+__pycache__/
+*.apk
+*.jks
+*.p12
+*.keystore
+*password*

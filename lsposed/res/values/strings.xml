@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">YouTube VR Ad Filter (Test)</string>
+    <string name="module_description">Experimental video ad filter for YouTube VR 1.87.13 only. Disable if playback fails.</string>
+    <string-array name="xposed_scope">
+        <item>com.google.android.apps.youtube.vr.oculus</item>
+    </string-array>
+</resources>
